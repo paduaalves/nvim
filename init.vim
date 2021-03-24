@@ -1,4 +1,4 @@
-" vim-bootstrap 2020-12-31 17:41:13
+" vim-bootstrap 2021-03-24 14:33:28
 
 "*****************************************************************************
 "" Vim-Plug core
@@ -10,7 +10,7 @@ else
   let curl_exists=expand('curl')
 endif
 
-let g:vim_bootstrap_langs = "go,html,javascript,php,python,ruby,typescript"
+let g:vim_bootstrap_langs = "c,elixir,elm,erlang,go,haskell,html,javascript,perl,php,python,ruby,rust,scala,typescript"
 let g:vim_bootstrap_editor = "nvim"				" nvim or vim
 let g:vim_bootstrap_theme = "dracula"
 let g:vim_bootstrap_frams = ""
@@ -49,8 +49,6 @@ Plug 'dense-analysis/ale'
 Plug 'Yggdroot/indentLine'
 Plug 'editor-bootstrap/vim-bootstrap-updater'
 Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
-Plug 'terryma/vim-multiple-cursors'
-Plug 'mattn/emmet-vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 
 
@@ -78,12 +76,35 @@ Plug 'honza/vim-snippets'
 "" Custom bundles
 "*****************************************************************************
 
-" 
+" c
+Plug 'vim-scripts/c.vim', {'for': ['c', 'cpp']}
+Plug 'ludwig/split-manpage.vim'
+
+
+" elixir
+Plug 'elixir-lang/vim-elixir'
+Plug 'carlosgaldino/elixir-snippets'
+
+
+" elm
+"" Elm Bundle
+Plug 'elmcast/elm-vim'
+
+
+" erlang
+Plug 'jimenezrick/vimerl'
 
 
 " go
 "" Go Lang Bundle
 Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
+
+
+" haskell
+"" Haskell Bundle
+Plug 'eagletmt/neco-ghc'
+Plug 'dag/vim2hs'
+Plug 'pbrisbin/vim-syntax-shakespeare'
 
 
 " html
@@ -97,6 +118,12 @@ Plug 'mattn/emmet-vim'
 " javascript
 "" Javascript Bundle
 Plug 'jelera/vim-javascript-syntax'
+
+
+" perl
+"" Perl Bundle
+Plug 'vim-perl/vim-perl'
+Plug 'c9s/perlomni.vim'
 
 
 " php
@@ -119,12 +146,41 @@ Plug 'thoughtbot/vim-rspec'
 Plug 'ecomba/vim-ruby-refactoring', {'tag': 'main'}
 
 
+" rust
+" Vim racer
+Plug 'racer-rust/vim-racer'
+
+" Rust.vim
+Plug 'rust-lang/rust.vim'
+
+" Async.vim
+Plug 'prabirshrestha/async.vim'
+
+" Vim lsp
+Plug 'prabirshrestha/vim-lsp'
+
+" Asyncomplete.vim
+Plug 'prabirshrestha/asyncomplete.vim'
+
+" Asyncomplete lsp.vim
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
+
+" scala
+if has('python')
+    " sbt-vim
+    Plug 'ktvoelker/sbt-vim'
+endif
+" vim-scala
+Plug 'derekwyatt/vim-scala'
+
+
 " typescript
 Plug 'leafgarland/typescript-vim'
 Plug 'HerringtonDarkholme/yats.vim'
 
 
-"*****************************************************************************
+"****************************************************************************
 "*****************************************************************************
 
 "" Include user's extra bundle
@@ -188,7 +244,6 @@ let g:session_command_aliases = 1
 syntax on
 set ruler
 set number
-set relativenumber
 
 let no_buffers_menu=1
 colorscheme dracula
@@ -468,6 +523,25 @@ nnoremap <Leader>o :.Gbrowse<CR>
 "" Custom configs
 "*****************************************************************************
 
+" c
+autocmd FileType c setlocal tabstop=4 shiftwidth=4 expandtab
+autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 expandtab
+
+
+" elixir
+
+
+" elm
+" elm-vim
+let g:elm_setup_keybindings = 0
+let g:elm_format_autosave = 1
+
+
+" erlang
+let erlang_folding = 1
+let erlang_show_errors = 1
+
+
 " go
 " vim-go
 " run :GoBuild or :GoTestCompile based on the go file
@@ -536,6 +610,13 @@ augroup END
     \"go": ['golint', 'go vet'], })
 
 
+" haskell
+let g:haskell_conceal_wide = 1
+let g:haskell_multiline_strings = 1
+let g:necoghc_enable_detailed_browse = 1
+autocmd Filetype haskell setlocal omnifunc=necoghc#omnifunc
+
+
 " html
 " for html files, 2 spaces
 autocmd Filetype html setlocal ts=2 sw=2 expandtab
@@ -549,6 +630,9 @@ augroup vimrc-javascript
   autocmd!
   autocmd FileType javascript setl tabstop=4|setl shiftwidth=4|setl expandtab softtabstop=4
 augroup END
+
+
+" perl
 
 
 " php
@@ -656,12 +740,20 @@ vnoremap <leader>rriv :RRenameInstanceVariable<cr>
 vnoremap <leader>rem  :RExtractMethod<cr>
 
 
+" rust
+" Vim racer
+au FileType rust nmap gd <Plug>(rust-def)
+au FileType rust nmap gs <Plug>(rust-def-split)
+au FileType rust nmap gx <Plug>(rust-def-vertical)
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
+
+
+" scala
+
+
 " typescript
 let g:yats_host_keyword = 1
 
-
-
-" 
 
 
 "*****************************************************************************
@@ -711,3 +803,4 @@ else
   let g:airline_symbols.readonly = ''
   let g:airline_symbols.linenr = ''
 endif
+
